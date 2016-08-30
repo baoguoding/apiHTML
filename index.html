@@ -1,1 +1,75 @@
-Hello World !
+<html><head>
+    <meta charset="utf-8">
+    <title>API POST HTML</title>
+    <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/angular.js"></script>
+
+
+<body ng-app="app" ng-controller="ctrl">
+    <h2>Simple Post Services</h2>
+    <br />
+    <br />
+    <table width="100%">
+        <tr>
+            <td valign="top">
+                <table>
+                    <tr ng-repeat="api in apiList">
+                        <td><a href="javascript:void(0);" ng-click="showBody(api);">{{api.name}}</a></td>
+                    </tr>
+                </table>
+            </td>
+            <td style="width: 80%; height:500; vertical-align: top; border:1px solid #000">
+                <div id="jsonTip" style="margin-left:10px;margin-top:10px">
+                    <br/> <br/>
+                    Welcome to API POST HTML !
+                    <br/> <br/>
+                    Enjoy your trip!
+                    <br/> <br/>
+                    Have Fun!
+
+                    <br/> <br/>
+
+                    :=)
+
+                </div>
+            </td>
+        </tr>
+    </table>
+    <br />
+</body>
+
+<script>
+    angular.module('app',[]).controller('ctrl',['$scope','$http',function($scope,$http){
+        $http.get("data/menu.json").success(function(response){
+            $scope.apiList=response.apiList;
+        });
+        $scope.showBody=function(api) {
+            var $jsontip = $("#jsonTip");
+            var strHtml = "";//存储数据的变量
+            $jsontip.empty();//清空内容
+
+            strHtml += "<h5>";
+            strHtml += api.name;
+            strHtml += "</h5>";
+            strHtml += "JSONtext:";
+            strHtml += "<br>";
+            strHtml += "<input type='text' style='width: 769px; height: 67px' value='' name='JSONtext'>";
+            strHtml += "<br> <br>";
+            strHtml += api.requestSample;
+            strHtml += "<br> <br>";
+            strHtml += "<input type='button' value='Submit' ng-click=callServer(";
+            strHtml += "'"+api.path+"'";
+            strHtml += ") >";
+            strHtml += "<br> <br>";
+
+            $jsontip.html(strHtml);//显示处理后的数据
+        };
+
+        $scope.callServer=function(path) {
+           console.log("call server");
+        };
+
+    }]);
+
+</script>
+</html>
