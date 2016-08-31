@@ -45,22 +45,22 @@
         });
         $scope.showBody=function(api) {
             var $jsontip = $("#jsonTip");
-            var strHtml = "";//存储数据的变量
-            $jsontip.empty();//清空内容
+            var strHtml = "";
+            $jsontip.empty();
 
             strHtml += "<h5>";
             strHtml += api.name;
             strHtml += "</h5>";
             strHtml += "JSONtext:";
             strHtml += "<br>";
-            strHtml += "<input type='text' style='width: 769px; height: 67px' value='' id='JSONtext'>";
+            strHtml += "<textarea style=\"width: 769px; height: 67px; margin-top:10px;\" value=\"\" id='JSONtext'/>";
             strHtml += "<br> <br>";
             strHtml += api.requestSample;
             strHtml += "<br> <br>";
             strHtml += "<button id=\"btn01\" path="+api.path+">Submit</button>";
             strHtml += "<br> <br>";
 
-            $jsontip.html(strHtml);//显示处理后的数据
+            $jsontip.html(strHtml);
 
             $("#btn01").bind("click",function(){
                 $scope.callServer($(this).attr("path"));
@@ -77,12 +77,12 @@
             $http(req)
                     .success(function(data, status, headers, config){
                         var $jsontip = $("#jsonTip");
-                        var strHtml = "";//存储数据的变量
-                        $jsontip.empty();//清空内容
+                        var strHtml = "";
+                        $jsontip.empty();
 
                         strHtml += JSON.stringify(data);
 
-                        $jsontip.html(strHtml);//显示处理后的数据
+                        $jsontip.html(strHtml);
                     })
                     .error(function(data, status, headers, config){
                         console.log(data);
