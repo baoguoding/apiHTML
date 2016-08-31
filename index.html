@@ -53,20 +53,44 @@
             strHtml += "</h5>";
             strHtml += "JSONtext:";
             strHtml += "<br>";
-            strHtml += "<input type='text' style='width: 769px; height: 67px' value='' name='JSONtext'>";
+            strHtml += "<input type='text' style='width: 769px; height: 67px' value='' id='JSONtext'>";
             strHtml += "<br> <br>";
             strHtml += api.requestSample;
             strHtml += "<br> <br>";
-            strHtml += "<input type='button' value='Submit' ng-click=callServer(";
-            strHtml += "'"+api.path+"'";
-            strHtml += ") >";
+            strHtml += "<button id=\"btn01\">Submit</button>";
             strHtml += "<br> <br>";
 
             $jsontip.html(strHtml);//显示处理后的数据
+
+            $("#btn01").bind("click",function(api){
+                $scope.callServer(api.path);
+            });
         };
 
         $scope.callServer=function(path) {
-           console.log("call server");
+            var jsonText = $("#JSONtext").val();
+
+            var req = {
+                url: "http://192.168.10.15:8383/rs-bpm-server/wfapi/awt",
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data:jsonText
+            };
+            $http(req)
+                    .success(function(data, status, headers, config){
+                        var $jsontip = $("#jsonTip");
+                        var strHtml = "";//存储数据的变量
+                        $jsontip.empty();//清空内容
+
+                        strHtml += data;
+
+                        $jsontip.html(strHtml);//显示处理后的数据
+                    })
+                    .error(function(data, status, headers, config){
+                        console.log(data);
+                    });
         };
 
     }]);
