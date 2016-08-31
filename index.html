@@ -47,7 +47,8 @@
             var $jsontip = $("#jsonTip");
             var strHtml = "";
             $jsontip.empty();
-
+            strHtml += "<div id=\"progressbar\"><img src=\"imgs/progressbar.gif\"></div>";
+            strHtml += "<div id=\"error\" style=\"color:red;\"></div>";
             strHtml += "<h3 style='font-weight:500; color:#333; margin-bottom:0.4em; line-height:1.5'>";
             strHtml += api.name;
             strHtml += "</h3>";
@@ -62,7 +63,12 @@
 
             $jsontip.html(strHtml);
 
+            $("#progressbar").hide();
+            $("#error").hide();
+
             $("#btn01").bind("click",function(){
+                $("#error").hide();
+                $("#progressbar").show();
                 $scope.callServer($(this).attr("path"));
             });
         };
@@ -85,7 +91,9 @@
                         $jsontip.html(strHtml);
                     })
                     .error(function(data, status, headers, config){
-                        console.log(data);
+                        $("#progressbar").hide();
+                        $("#error").html("You got an error, please feel free contact with your admin!");
+                        $("#error").show();
                     });
         };
 
