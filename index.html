@@ -11,6 +11,9 @@
         <table width="100%">
             <tr>
                 <td valign="top">
+                    <input id="serverAddr" value="192.168.10.15:8383">
+                    <br/>
+                    <input id="appName" value="rs-bpm-server">
                     <table>
                         <tr ng-repeat="api in apiList">
                             <td><a href="javascript:void(0);" ng-click="showBody(api);">{{api.name}}</a></td>
@@ -57,6 +60,22 @@
             strHtml += "<button id=\"btn01\" path="+api.path+">Submit</button>";
             strHtml += "<br> <br>";
 
+            if(api.paramList != null){
+
+                strHtml += "<table width=\"100%\" style=\"border-collapse:collapse;width: 550px\" border=\"1px\">";
+                strHtml += "<tr><th width='150px'>Param Name</th><th width='400px'>Param Desc</th></tr>";
+
+
+                angular.forEach(api.paramList, function (value, key) {
+                    strHtml += "<tr><td>";
+                    strHtml += value["name"];
+                    strHtml += "</td><td style=\"word-break: break-all;\">";
+                    strHtml += value["desc"];
+                    strHtml += "</td></tr>";
+                });
+                strHtml += "</table>";
+            }
+
             $jsontip.html(strHtml);
             $("#progressbar").hide();
             $("#error").hide();
@@ -67,8 +86,11 @@
             });
         };
 
-        $scope.callServer=function(path) {
+        $scope.callServer=function(uri) {
             var jsonText = $("#JSONtext").val();
+            var serverPath = $("#serverAddr").val();
+            var appName = $("#appName").val();
+            var path = "http://"+serverPath + "/"+appName + uri;
             var req = {
                 url: path,
                 method: 'POST',
