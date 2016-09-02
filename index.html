@@ -114,7 +114,7 @@
                         var strHtml = "";
                         $jsontip.empty();
                         strHtml += JSON.stringify(data);
-                        $jsontip.html(strHtml);
+                        $jsontip.text(strHtml);
                     })
                     .error(function(data, status, headers, config){
                         $("#progressbar").hide();
